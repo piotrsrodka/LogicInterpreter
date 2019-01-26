@@ -1,0 +1,13 @@
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\obj\Debug\netcoreapp2.1\LogicalInterpreter.csprojAssemblyReference.cache
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\obj\Debug\netcoreapp2.1\LogicalInterpreter.csproj.CoreCompileInputs.cache
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\obj\Debug\netcoreapp2.1\LogicalInterpreter.AssemblyInfoInputs.cache
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\obj\Debug\netcoreapp2.1\LogicalInterpreter.AssemblyInfo.cs
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\bin\Debug\netcoreapp2.1\answeredQuestions.json
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\bin\Debug\netcoreapp2.1\logicalExpression.txt
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\bin\Debug\netcoreapp2.1\LogicalInterpreter.deps.json
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\bin\Debug\netcoreapp2.1\LogicalInterpreter.runtimeconfig.json
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\bin\Debug\netcoreapp2.1\LogicalInterpreter.runtimeconfig.dev.json
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\bin\Debug\netcoreapp2.1\LogicalInterpreter.dll
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\bin\Debug\netcoreapp2.1\LogicalInterpreter.pdb
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\obj\Debug\netcoreapp2.1\LogicalInterpreter.dll
+C:\Users\Piotr\Dropbox\Coding\Sources\LogicalInterpreter\LogicalInterpreter\obj\Debug\netcoreapp2.1\LogicalInterpreter.pdb

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PScript", "PScript.csproj", "{48295C4E-808D-494F-8E2C-21F158AB38ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicalInterpreter", "LogicalInterpreter\LogicalInterpreter.csproj", "{D07851BA-F92D-4C70-9F7D-1988700962AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{48295C4E-808D-494F-8E2C-21F158AB38ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{48295C4E-808D-494F-8E2C-21F158AB38ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{48295C4E-808D-494F-8E2C-21F158AB38ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{48295C4E-808D-494F-8E2C-21F158AB38ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D07851BA-F92D-4C70-9F7D-1988700962AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D07851BA-F92D-4C70-9F7D-1988700962AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D07851BA-F92D-4C70-9F7D-1988700962AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D07851BA-F92D-4C70-9F7D-1988700962AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {69056124-3E7C-41B4-8A0C-9F4FD857C996}
+		SolutionGuid = {A8D9A668-411D-4F30-946C-1645AA96319F}
 	EndGlobalSection
 EndGlobal
