@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 
-namespace PScript
+namespace LogicalInterpreter
 {
     public class Program
     {
@@ -27,10 +26,12 @@ namespace PScript
             {
                 input = args[0];
             }
-            Console.WriteLine("\n" + input + "\n");
-            var lexer = new Lexer(input);
-            lexer.Tokens.ForEach(t => Console.WriteLine($"{t.Index}\t{t.Value}\t\t{t.Name}"));
-            var interpreter = new Interpreter(lexer, symbolTable);
+
+            Console.WriteLine(input + "\n");
+            var scanner = new Scanner(input);
+            scanner.Tokens.ForEach(t => Console.WriteLine(t.ToString()));
+            var interpreter = new Interpreter(scanner, symbolTable);
+
             try
             {
                 var logicalExpressionResult = interpreter.LogicalExpression();
@@ -40,24 +41,6 @@ namespace PScript
             {
                 Console.WriteLine($"Syntax error: {exception.Message}");
             }
-                
-            //var expression = Expression.Or(Expression.Constant(true), Expression.Constant(false));
-            //var result = Expression.Lambda<Func<bool>>(expression).Compile()();
-            //Console.WriteLine($"EXpression: {expression.ToString()}");
-            //Console.WriteLine($"Result: {result}");
-        }
-
-        public T ConvertTo<T>(object value)
-        {
-            if (value is T variable) return variable;
-
-            //Handling Nullable types i.e, int?, double?, bool? .. etc
-            if (Nullable.GetUnderlyingType(typeof(T)) != null)
-            {
-                return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(value);
-            }
-
-            return (T)Convert.ChangeType(value, typeof(T));
         }
     }
 }

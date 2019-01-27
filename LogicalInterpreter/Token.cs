@@ -1,14 +1,14 @@
-﻿namespace PScript
+﻿namespace LogicalInterpreter
 {
     public struct Token
     {
-        public string Name;
+        public TokenType Type;
         public string Value;
         public int Index;
 
         public override string ToString()
         {
-            return $"{Name}: {Value}";
+            return $"{Type.ToString()}: {Value}";
         }
     }
 }

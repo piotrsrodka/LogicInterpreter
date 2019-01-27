@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PScript
+namespace LogicalInterpreter
 {
     /*                Grammar:
      * 
@@ -14,14 +14,23 @@ namespace PScript
     {
         private Token currentToken;
         private int currentTokenIndex;
-        private readonly Lexer lexer;
+        private readonly Scanner scanner;
         private readonly Dictionary<string, string> symbolTable;
-
-        public Interpreter(Lexer lexer, Dictionary<string, string>  symbolTable)
+        private readonly HashSet<TokenType> comparisons = new HashSet<TokenType>
         {
-            this.lexer = lexer;
+            TokenType.Equal_equal,
+            TokenType.Less,
+            TokenType.Less_equal,
+            TokenType.NotEqual,
+            TokenType.Greater,
+            TokenType.Greater_equal
+        };
+
+        public Interpreter(Scanner scanner, Dictionary<string, string>  symbolTable)
+        {
+            this.scanner = scanner;
             this.currentTokenIndex = 0;
-            this.currentToken = lexer.Tokens[currentTokenIndex];
+            this.currentToken = scanner.Tokens[currentTokenIndex];
             this.symbolTable = symbolTable;
         }
 
@@ -29,21 +38,21 @@ namespace PScript
         {
             var result = Logic();
 
-            var operators = new string[] { Lexer.Or, Lexer.And };
+            var operators = new TokenType[] { TokenType.Or, TokenType.And };
 
-            while (operators.Contains(currentToken.Name))
+            while (operators.Contains(currentToken.Type))
             {
                 var token = currentToken;
 
-                if (token.Name == Lexer.Or)
+                if (token.Type == TokenType.Or)
                 {
-                    Eat(Lexer.Or);
+                    Eat(TokenType.Or);
                     result = result | Logic(); // single | evaluates both sides always
                 }
 
-                if (token.Name == Lexer.And)
+                if (token.Type == TokenType.And)
                 {
-                    Eat(Lexer.And);
+                    Eat(TokenType.And);
                     result = result & Logic(); // single & evaluates both sides always
                 }
             }
@@ -55,33 +64,35 @@ namespace PScript
         {
             var token = currentToken;
 
-            if (token.Name == Lexer.OpenBracket)
+            if (token.Type == TokenType.OpenBracket)
             {
-                Eat(Lexer.OpenBracket);
+                Eat(TokenType.OpenBracket);
                 var exp = LogicalExpression();
-                Eat(Lexer.CloseBracket);
+                Eat(TokenType.CloseBracket);
                 return exp;
             }
 
             var leftTerm = Term();
 
-            while (currentToken.Name == Lexer.Comparison)
+            while (comparisons.Contains(currentToken.Type))
             {
                 token = currentToken;
-                Eat(Lexer.Comparison);
+                Eat(currentToken.Type);
 
-                switch (token.Value)
+                switch (token.Type)
                 {
-                    case "==":                        
-                        return leftTerm == Term();
-                    case "<":
+                    case TokenType.Equal_equal:                        
+                        return leftTerm == Term(); // string operator
+                    case TokenType.Less:
                         return int.Parse(leftTerm) < int.Parse(Term());
-                    case "<=":
+                    case TokenType.Less_equal:
                         return int.Parse(leftTerm) <= int.Parse(Term());
-                    case ">":
+                    case TokenType.Greater:
                         return int.Parse(leftTerm) > int.Parse(Term());
-                    case ">=":
+                    case TokenType.Greater_equal:
                         return int.Parse(leftTerm) >= int.Parse(Term());
+                    case TokenType.NotEqual:
+                        return int.Parse(leftTerm) != int.Parse(Term());
                     default:
                         throw new Exception("Syntax error");
                 }
@@ -94,19 +105,19 @@ namespace PScript
         {
             var token = currentToken;
 
-            if (token.Name == Lexer.Digit)
+            if (token.Type == TokenType.Integer)
             {
-                Eat(Lexer.Digit);
+                Eat(TokenType.Integer);
                 return token.Value;
             }
-            else if (token.Name == Lexer.String)
+            else if (token.Type == TokenType.String)
             {
-                Eat(Lexer.String);
+                Eat(TokenType.String);
                 return token.Value;
             }
-            else if (token.Name == Lexer.QuestionValue)
+            else if (token.Type == TokenType.Symbol)
             {
-                Eat(Lexer.QuestionValue);
+                Eat(TokenType.Symbol);
                 string answer;
                 var isInSymbolTable = symbolTable.TryGetValue(token.Value, out answer);
 
@@ -125,11 +136,11 @@ namespace PScript
             }
         }
 
-        private void Eat(string tokenName)
+        private void Eat(TokenType tokenName)
         {
-            if (currentToken.Name == tokenName)
+            if (currentToken.Type == tokenName)
             {
-                currentToken = lexer.Tokens[++currentTokenIndex];
+                currentToken = scanner.Tokens[++currentTokenIndex];
             }
             else
             {
