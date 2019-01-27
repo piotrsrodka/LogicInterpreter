@@ -12,6 +12,9 @@
         Less, Greater,
         Less_equal, Greater_equal,
 
+        // Arithmic operators
+        Plus, Minus, Times, Division,
+
         // Values
         Integer, String,
 

@@ -9,7 +9,7 @@ namespace LogicalInterpreter
     {
         static void Main(string[] args)
         {
-            var json = File.ReadAllText("answeredQuestions.json");
+            var json = File.ReadAllText("symbolTable.json");
             var symbolTable = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             var input = string.Empty;
 
@@ -29,6 +29,13 @@ namespace LogicalInterpreter
 
             Console.WriteLine(input + "\n");
             var scanner = new Scanner(input);
+
+            if (scanner.IsError)
+            {
+                scanner.ErrorList.ForEach(e => Console.WriteLine(e));
+                return;
+            }
+
             scanner.Tokens.ForEach(t => Console.WriteLine(t.ToString()));
             var interpreter = new Interpreter(scanner, symbolTable);
 

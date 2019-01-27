@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace LogicalInterpreter
 {
@@ -7,7 +6,7 @@ namespace LogicalInterpreter
     {
         public List<Token> Tokens = new List<Token>();
 
-        public bool error = false;
+        public bool IsError = false;
         public List<string> ErrorList = new List<string>();
 
         public HashSet<string> Keywords = new HashSet<string>
@@ -21,8 +20,7 @@ namespace LogicalInterpreter
 
         public Scanner(string source)
         {
-            // Remove all whitespace
-            input = Regex.Replace(source, @"\s+", "");
+            input = source;
 
             while (current < input.Length)
             {
@@ -40,8 +38,24 @@ namespace LogicalInterpreter
 
             switch (c)
             {
-                case '(': AddToken(TokenType.OpenBracket); break;
-                case ')': AddToken(TokenType.CloseBracket); break;
+                case '(':
+                    AddToken(TokenType.OpenBracket);
+                    break;
+                case ')':
+                    AddToken(TokenType.CloseBracket);
+                    break;
+                case '+':
+                    AddToken(TokenType.Plus);
+                    break;
+                case '-':
+                    AddToken(TokenType.Minus);
+                    break;
+                case '*':
+                    AddToken(TokenType.Times);
+                    break;
+                case '/':
+                    AddToken(TokenType.Division);
+                    break;
                 case '=':
                     AddToken(IsNext('=') ? TokenType.Equal_equal : TokenType.Undefined);
                     break;
@@ -63,14 +77,20 @@ namespace LogicalInterpreter
                 case '"':
                     HandleStringLiteral();
                     break;
+                case ' ':
+                case '\r':
+                case '\t':
+                case '\n':
+                    // Ignore whitespace.  
+                    break;
                 default:
-                    if (IsDigit(c))
+                    if (char.IsDigit(c))
                     {
                         HandleNumber();
                     }
                     else if (IsAlpha(c))
                     {
-                        Identifier();
+                        HandleSymbol();
                     }
                     else
                     {
@@ -80,7 +100,7 @@ namespace LogicalInterpreter
             }
         }
 
-        private void Identifier()
+        private void HandleSymbol()
         {
             while (IsAlphaNumeric(Peek())) Advance();
 
@@ -98,14 +118,9 @@ namespace LogicalInterpreter
 
         private void HandleNumber()
         {
-            while (IsDigit(Peek())) Advance();
+            while (char.IsDigit(Peek())) Advance();
 
             AddToken(TokenType.Integer, input.Substring(start, current - start));
-        }
-
-        private bool IsDigit(char c)
-        {
-            return c >= '0' && c <= '9';
         }
 
         private bool IsAlpha(char c)
@@ -117,7 +132,7 @@ namespace LogicalInterpreter
 
         private bool IsAlphaNumeric(char c)
         {
-            return IsAlpha(c) || IsDigit(c);
+            return IsAlpha(c) || char.IsDigit(c);
         }
 
         private void HandleStringLiteral()
@@ -127,7 +142,6 @@ namespace LogicalInterpreter
                 Advance();
             }
 
-            // Unterminated string.                                 
             if (IsAtEnd())
             {
                 Error($"Unterminated string.");
@@ -179,7 +193,7 @@ namespace LogicalInterpreter
 
         private void Error(string message)
         {
-            error = true;
+            IsError = true;
             ErrorList.Add(message);
         }
     }

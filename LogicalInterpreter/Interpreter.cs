@@ -8,7 +8,8 @@ namespace LogicalInterpreter
      * 
      * logicalExpression : logic (( OR | AND) logic)* 
      *             logic : term ((operator) term) | (logic)
-     *              term : integer | string | QuestionValue
+     *              term : integer | string | symbol
+     *           integer : addend (( + | - ) addend) | (integer)
      */
     internal class Interpreter
     {
@@ -118,16 +119,16 @@ namespace LogicalInterpreter
             else if (token.Type == TokenType.Symbol)
             {
                 Eat(TokenType.Symbol);
-                string answer;
-                var isInSymbolTable = symbolTable.TryGetValue(token.Value, out answer);
+                string value;
+                var isInSymbolTable = symbolTable.TryGetValue(token.Value, out value);
 
                 if (isInSymbolTable)
                 {
-                    return answer;
+                    return value;
                 }
                 else
                 {
-                    throw new Exception($"There is no known answer for question: {token.Value}");
+                    throw new Exception($"There is no value for symbol: {token.Value}");
                 }
             }
             else
