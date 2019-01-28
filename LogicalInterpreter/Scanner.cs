@@ -106,13 +106,20 @@ namespace LogicalInterpreter
 
             var text = input.Substring(start, current - start);
 
-            if (Keywords.Contains(text))
+            switch (text)
             {
-                AddToken(TokenType.If);
-            }
-            else
-            {
-                AddToken(TokenType.Symbol, text);
+                case "if":
+                    AddToken(TokenType.If);
+                    break;
+                case "true":
+                    AddToken(TokenType.True);
+                    break;
+                case "false":
+                    AddToken(TokenType.False);
+                    break;
+                default:
+                    AddToken(TokenType.Symbol, text);
+                    break;
             }
         }
 

@@ -11,7 +11,7 @@ namespace LogicalInterpreter
      *              term : integer | string | symbol
      *           integer : addend (( + | - ) addend) | (integer)
      */
-    internal class Interpreter
+    public class Interpreter
     {
         private Token currentToken;
         private int currentTokenIndex;
@@ -32,7 +32,7 @@ namespace LogicalInterpreter
             this.scanner = scanner;
             this.currentTokenIndex = 0;
             this.currentToken = scanner.Tokens[currentTokenIndex];
-            this.symbolTable = symbolTable;
+            this.symbolTable = symbolTable ?? new Dictionary<string, string>();
         }
 
         public bool LogicalExpression()
@@ -73,6 +73,18 @@ namespace LogicalInterpreter
                 return exp;
             }
 
+            if (token.Type == TokenType.True)
+            {
+                Eat(TokenType.True);
+                return true;
+            }
+
+            if (token.Type == TokenType.False)
+            {
+                Eat(TokenType.False);
+                return false;
+            }
+
             var leftTerm = Term();
 
             while (comparisons.Contains(currentToken.Type))
@@ -93,7 +105,20 @@ namespace LogicalInterpreter
                     case TokenType.Greater_equal:
                         return int.Parse(leftTerm) >= int.Parse(Term());
                     case TokenType.NotEqual:
-                        return int.Parse(leftTerm) != int.Parse(Term());
+                        int left;
+                        bool isLeftANumber = int.TryParse(leftTerm, out left);
+                        var rightTerm = Term();
+                        int right;
+                        bool isRightANumber = int.TryParse(rightTerm, out right);
+
+                        if (isLeftANumber && isRightANumber)
+                        {
+                            return left != right;
+                        }
+                        else
+                        {
+                            return leftTerm != rightTerm;
+                        }
                     default:
                         throw new Exception("Syntax error");
                 }
