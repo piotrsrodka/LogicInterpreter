@@ -1,11 +1,49 @@
 using LogicalInterpreter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace Test
 {
     [TestClass]
     public class InterpreterTests
     {
+
+        [TestMethod]
+        public void SymbolEqualsString()
+        {
+            Scanner scanner = new Scanner(@"foo == ""Red""");
+            var interpreter = new Interpreter(scanner, new Dictionary<string, string>
+            {
+                { "foo", "Red" }
+            });
+            var result = interpreter.LogicalExpression();
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void SymbolEqualsThirteen()
+        {
+            Scanner scanner = new Scanner("foo == 13");
+            var interpreter = new Interpreter(scanner, new Dictionary<string, string>
+            {
+                { "foo", "13" }
+            });
+            var result = interpreter.LogicalExpression();
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void SymbolEqualsTrue()
+        {
+            Scanner scanner = new Scanner("jojo");
+            var interpreter = new Interpreter(scanner, new Dictionary<string, string>
+            {
+                { "jojo", "true" }
+            });
+            var result = interpreter.LogicalExpression();
+            Assert.IsTrue(result);
+        }
+
         [TestMethod]
         public void Complicated()
         {
