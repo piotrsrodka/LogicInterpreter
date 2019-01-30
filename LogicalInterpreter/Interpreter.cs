@@ -7,7 +7,7 @@ namespace LogicalInterpreter
     /*                Grammar:
      * 
      * logicalExpression : logic (( OR | AND) logic)* 
-     *             logic : term ((operator) term) | (logic)
+     *             logic : term ((operator) term) | (logic) | !logic
      *              term : integer | string | symbol
      *           integer : addend (( + | - ) addend) | (integer)
      */
@@ -71,6 +71,13 @@ namespace LogicalInterpreter
                 var exp = LogicalExpression();
                 Eat(TokenType.CloseBracket);
                 return exp;
+            }
+
+            if (token.Type == TokenType.Not)
+            {
+                Eat(TokenType.Not);
+                var exp = LogicalExpression();
+                return !exp;
             }
 
             if (token.Type == TokenType.True)

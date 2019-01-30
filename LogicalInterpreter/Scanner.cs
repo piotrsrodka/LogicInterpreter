@@ -66,7 +66,7 @@ namespace LogicalInterpreter
                     AddToken(IsNext('=') ? TokenType.Greater_equal: TokenType.Greater);
                     break;
                 case '!':
-                    AddToken(IsNext('=') ? TokenType.NotEqual : TokenType.Undefined);
+                    AddToken(IsNext('=') ? TokenType.NotEqual : TokenType.Not);
                     break;
                 case '|':
                     AddToken(IsNext('|') ? TokenType.Or : TokenType.Or);
@@ -81,7 +81,6 @@ namespace LogicalInterpreter
                 case '\r':
                 case '\t':
                 case '\n':
-                    // Ignore whitespace.  
                     break;
                 default:
                     if (char.IsDigit(c))

@@ -5,7 +5,7 @@
         Undefined = 0,
 
         // Logical operations
-        Or, And,
+        Or, And, Not,
 
         // Comparisons
         Equal_equal, NotEqual,

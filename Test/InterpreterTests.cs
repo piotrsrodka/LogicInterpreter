@@ -45,6 +45,12 @@ namespace Test
         }
 
         [TestMethod]
+        public void NotComplicated()
+        {
+            Assert.IsTrue(Evaluate(@"(!(1 == 1 && 4 > 5) && 0 != 1))"));
+        }
+
+        [TestMethod]
         public void Complicated()
         {
             Assert.IsTrue(Evaluate(@"((1 == 1 && 4 > 5) || 0 != 1))"));
@@ -141,6 +147,12 @@ namespace Test
         }
 
         [TestMethod]
+        public void NotGreaterIsFalse()
+        {
+            Assert.IsFalse(Evaluate(@"!(2 > 1)"));
+        }
+
+        [TestMethod]
         public void GreaterIsTrue()
         {
             Assert.IsTrue(Evaluate(@"2 > 1"));
@@ -156,6 +168,48 @@ namespace Test
         public void Given_EqualString_When_Comparing_Then_ItIsTrue()
         {
             Assert.IsTrue(Evaluate(@"""Text"" == ""Text"" "));
+        }
+
+        [TestMethod]
+        public void FancyNotEqualStrings()
+        {
+            Assert.IsTrue(Evaluate(@"!""abc""!=""abc"""));
+        }
+
+        [TestMethod]
+        public void FancyNotEqualNumbers()
+        {
+            Assert.IsFalse(Evaluate("!1==1"));
+        }
+
+        [TestMethod]
+        public void NotFalse()
+        {
+            Assert.IsTrue(Evaluate("!false"));
+        }
+
+        [TestMethod]
+        public void NotTrue()
+        {
+            Assert.IsFalse(Evaluate("!true"));
+        }
+
+        [TestMethod]
+        public void DoubleNotTrue()
+        {
+            Assert.IsTrue(Evaluate("!!true"));
+        }
+
+        [TestMethod]
+        public void NotBracketedTrue()
+        {
+            Assert.IsFalse(Evaluate("!(true)"));
+        }
+
+        [TestMethod]
+        public void BracketedNotTrue()
+        {
+            Assert.IsFalse(Evaluate("(!true)"));
         }
 
         private static bool Evaluate(string input)
